@@ -7,9 +7,6 @@
 
 <title>Post Load - TankerLink</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -45,12 +42,6 @@ nav a{
 color:white;
 text-decoration:none;
 margin-left:25px;
-font-size:17px;
-transition:0.3s;
-}
-
-nav a:hover{
-color:#00ff88;
 }
 
 .page{
@@ -61,7 +52,7 @@ justify-content:center;
 
 .form-container{
 width:100%;
-max-width:850px;
+max-width:1000px;
 background:#101010;
 padding:45px;
 border-radius:28px;
@@ -71,7 +62,6 @@ border:1px solid #1f1f1f;
 .form-title{
 font-size:48px;
 margin-bottom:15px;
-font-weight:700;
 }
 
 .form-title span{
@@ -80,8 +70,8 @@ color:#00ff88;
 
 .form-subtitle{
 color:#bbbbbb;
-margin-bottom:40px;
-line-height:1.7;
+margin-bottom:35px;
+line-height:1.8;
 }
 
 .form-grid{
@@ -97,7 +87,6 @@ flex-direction:column;
 
 .input-group label{
 margin-bottom:10px;
-font-size:15px;
 color:#cccccc;
 }
 
@@ -110,20 +99,21 @@ padding:16px;
 border-radius:14px;
 color:white;
 font-size:16px;
-outline:none;
-transition:0.3s;
-}
-
-.input-group input:focus,
-.input-group select:focus,
-textarea:focus{
-border-color:#00ff88;
 }
 
 textarea{
-resize:none;
 height:140px;
+resize:none;
 grid-column:span 2;
+}
+
+.freight-box{
+background:#181818;
+padding:18px;
+border-radius:14px;
+font-size:20px;
+font-weight:600;
+color:#00ff88;
 }
 
 .submit-btn{
@@ -136,19 +126,12 @@ font-size:18px;
 font-weight:700;
 border-radius:14px;
 cursor:pointer;
-transition:0.3s ease;
-}
-
-.submit-btn:hover{
-transform:translateY(-3px);
 }
 
 footer{
-padding:40px 8%;
+padding:40px;
 text-align:center;
 color:#888;
-margin-top:50px;
-border-top:1px solid #1f1f1f;
 }
 
 @media(max-width:768px){
@@ -161,12 +144,12 @@ textarea{
 grid-column:span 1;
 }
 
-.form-title{
-font-size:36px;
-}
-
 nav{
 display:none;
+}
+
+.form-title{
+font-size:34px;
 }
 
 }
@@ -179,15 +162,12 @@ display:none;
 
 <header>
 
-<div class="logo">
-TankerLink
-</div>
+<div class="logo">TankerLink</div>
 
 <nav>
 <a href="index.html">Home</a>
-<a href="#">Features</a>
+<a href="find-tanker.html">Find Tanker</a>
 <a href="post-load.html">Post Load</a>
-<a href="#">Contact</a>
 </nav>
 
 </header>
@@ -201,7 +181,7 @@ Post Your <span>Load</span>
 </h1>
 
 <p class="form-subtitle">
-Fill the details below to connect with verified tanker owners and transporters across India.
+Create a load and connect with verified tanker owners across India.
 </p>
 
 <form>
@@ -219,35 +199,91 @@ Fill the details below to connect with verified tanker owners and transporters a
 </div>
 
 <div class="input-group">
+<label>Main Category</label>
+
+<select>
+<option>Select Category</option>
+<option>Fuel</option>
+<option>Chemical</option>
+<option>Petrochemical</option>
+<option>Edible Oil</option>
+<option>Industrial Liquid</option>
+<option>Other</option>
+</select>
+
+</div>
+
+<div class="input-group">
 <label>Material Type</label>
 
 <select>
 <option>Select Material</option>
 <option>Methanol</option>
-<option>Solvent</option>
-<option>Chemical</option>
-<option>Fuel</option>
-<option>Acid</option>
+<option>Ethanol</option>
+<option>Diesel</option>
+<option>Petrol</option>
+<option>ATF</option>
+<option>Benzene</option>
+<option>Toluene</option>
+<option>Other</option>
 </select>
 
 </div>
 
 <div class="input-group">
-<label>Tanker Capacity</label>
+<label>Specify Material</label>
+<input type="text" placeholder="Enter material name if not listed">
+</div>
+
+<div class="input-group">
+<label>Capacity Type</label>
+
+<select>
+<option>KL</option>
+<option>MT</option>
+</select>
+
+</div>
+
+<div class="input-group">
+<label>Capacity</label>
 
 <select>
 <option>Select Capacity</option>
-<option>18 MT</option>
-<option>24 MT</option>
-<option>28 MT</option>
-<option>30 MT</option>
+<option>20</option>
+<option>25</option>
+<option>30</option>
+<option>35</option>
+<option>40</option>
+<option>45</option>
+<option>50</option>
+<option>Specify</option>
 </select>
 
 </div>
 
 <div class="input-group">
-<label>Freight Amount</label>
-<input type="text" placeholder="Enter freight amount">
+<label>Specify Capacity</label>
+<input type="text" placeholder="Enter custom capacity">
+</div>
+
+<div class="input-group">
+<label>Rate (₹)</label>
+<input type="number" id="rate" placeholder="Rate per MT/KL">
+</div>
+
+<div class="input-group">
+<label>Quantity</label>
+<input type="number" id="qty" placeholder="Enter quantity">
+</div>
+
+<div class="input-group">
+<label>Total Freight</label>
+
+<div class="freight-box" id="freight">
+₹0
+</div>
+
 </div>
 
 <div class="input-group">
@@ -258,7 +294,7 @@ Fill the details below to connect with verified tanker owners and transporters a
 <div class="input-group" style="grid-column:span 2;">
 <label>Additional Details</label>
 
-<textarea placeholder="Enter load details, tanker requirements, timing etc."></textarea>
+<textarea placeholder="Loading point, unloading point, timing, tanker requirements etc."></textarea>
 
 </div>
 
@@ -275,12 +311,29 @@ Post Load
 </section>
 
 <footer>
-
-<p>
-TankerLink • India’s Digital Tanker Network
-</p>
-
+TankerLink • India's Digital Tanker Marketplace
 </footer>
+
+<script>
+
+const rate = document.getElementById('rate');
+const qty = document.getElementById('qty');
+const freight = document.getElementById('freight');
+
+function calculateFreight(){
+
+const total =
+(Number(rate.value || 0) * Number(qty.value || 0));
+
+freight.innerText =
+"₹" + total.toLocaleString();
+
+}
+
+rate.addEventListener('input', calculateFreight);
+qty.addEventListener('input', calculateFreight);
+
+</script>
 
 </body>
 </html>
