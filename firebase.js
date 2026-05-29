@@ -1,16 +1,13 @@
 ```js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 
-import {
-getAuth
+import { 
+getAuth 
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-import {
-getFirestore
+import { 
+getFirestore 
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-
-// Firebase Config
 
 const firebaseConfig = {
 
@@ -30,23 +27,11 @@ measurementId: "G-M4T0T8BVEP"
 
 };
 
-
-// Initialize Firebase
-
 const app = initializeApp(firebaseConfig);
-
-
-// Auth
 
 const auth = getAuth(app);
 
-
-// Firestore
-
 const db = getFirestore(app);
-
-
-// EXPORT
 
 export { auth, db };
 ```
