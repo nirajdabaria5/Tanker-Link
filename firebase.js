@@ -1,4 +1,4 @@
-```js id="z4x8pm"
+```js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 
 import {
@@ -36,17 +36,17 @@ measurementId: "G-M4T0T8BVEP"
 const app = initializeApp(firebaseConfig);
 
 
-// Authentication
+// Auth
 
 const auth = getAuth(app);
 
 
-// Firestore Database
+// Firestore
 
 const db = getFirestore(app);
 
 
-// Export
+// EXPORT
 
 export { auth, db };
 ```
