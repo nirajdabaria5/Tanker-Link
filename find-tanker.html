@@ -1,0 +1,255 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Find Tanker - TankerLink</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050505;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 8%;
+background:#0d0d0d;
+border-bottom:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#00ff88;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+}
+
+.page{
+padding:70px 8%;
+display:flex;
+justify-content:center;
+}
+
+.form-container{
+width:100%;
+max-width:900px;
+background:#101010;
+padding:45px;
+border-radius:28px;
+border:1px solid #1f1f1f;
+}
+
+.form-title{
+font-size:46px;
+margin-bottom:15px;
+}
+
+.form-title span{
+color:#00ff88;
+}
+
+.form-subtitle{
+color:#bbbbbb;
+margin-bottom:35px;
+line-height:1.8;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+.input-group{
+display:flex;
+flex-direction:column;
+}
+
+.input-group label{
+margin-bottom:10px;
+color:#cccccc;
+}
+
+.input-group input,
+.input-group select{
+background:#181818;
+border:1px solid #2a2a2a;
+padding:16px;
+border-radius:14px;
+color:white;
+font-size:16px;
+}
+
+.submit-btn{
+margin-top:35px;
+background:#00ff88;
+color:black;
+border:none;
+padding:18px 35px;
+font-size:18px;
+font-weight:700;
+border-radius:14px;
+cursor:pointer;
+}
+
+footer{
+padding:40px;
+text-align:center;
+color:#888;
+}
+
+@media(max-width:768px){
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+nav{
+display:none;
+}
+
+.form-title{
+font-size:34px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">TankerLink</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="post-load.html">Post Load</a>
+<a href="find-tanker.html">Find Tanker</a>
+</nav>
+
+</header>
+
+<section class="page">
+
+<div class="form-container">
+
+<h1 class="form-title">
+Find <span>Available Tankers</span>
+</h1>
+
+<p class="form-subtitle">
+Search available tankers based on route, material and capacity requirement.
+</p>
+
+<form>
+
+<div class="form-grid">
+
+<div class="input-group">
+<label>Pickup Location</label>
+<input type="text" placeholder="Enter pickup city">
+</div>
+
+<div class="input-group">
+<label>Destination</label>
+<input type="text" placeholder="Enter destination city">
+</div>
+
+<div class="input-group">
+<label>Main Category</label>
+
+<select>
+<option>Select Category</option>
+<option>Fuel</option>
+<option>Chemical</option>
+<option>Petrochemical</option>
+<option>Edible Oil</option>
+<option>Industrial Liquid</option>
+<option>Other</option>
+</select>
+
+</div>
+
+<div class="input-group">
+<label>Material Type</label>
+
+<select>
+<option>Select Material</option>
+<option>Methanol</option>
+<option>Ethanol</option>
+<option>Diesel</option>
+<option>Petrol</option>
+<option>ATF</option>
+<option>Other</option>
+</select>
+
+</div>
+
+<div class="input-group">
+<label>Capacity</label>
+
+<select>
+<option>Select Capacity</option>
+<option>20 KL</option>
+<option>25 KL</option>
+<option>30 KL</option>
+<option>35 KL</option>
+<option>40 KL</option>
+<option>20 MT</option>
+<option>25 MT</option>
+<option>30 MT</option>
+<option>35 MT</option>
+<option>40 MT</option>
+<option>Specify</option>
+</select>
+
+</div>
+
+<div class="input-group">
+<label>Mobile Number</label>
+<input type="text" placeholder="Enter mobile number">
+</div>
+
+</div>
+
+<button class="submit-btn">
+Find Available Tankers
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<footer>
+TankerLink • India's Digital Tanker Marketplace
+</footer>
+
+</body>
+</html>
+```
