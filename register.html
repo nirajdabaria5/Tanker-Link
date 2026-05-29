@@ -1,14 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Register - TankerLink</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -33,7 +30,7 @@ color:white;
 
 .register-box{
 width:100%;
-max-width:520px;
+max-width:550px;
 background:#101010;
 padding:45px;
 border-radius:28px;
@@ -82,7 +79,6 @@ border-radius:14px;
 color:white;
 font-size:16px;
 outline:none;
-transition:0.3s;
 }
 
 .input-group input:focus,
@@ -99,12 +95,7 @@ border-radius:14px;
 font-size:18px;
 font-weight:700;
 cursor:pointer;
-transition:0.3s ease;
 margin-top:10px;
-}
-
-.register-btn:hover{
-transform:translateY(-3px);
 }
 
 .extra{
@@ -119,30 +110,25 @@ text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="register-box">
 
-<div class="logo">
-TankerLink
-</div>
+<div class="logo">TankerLink</div>
 
-<h1 class="title">
-Create Account
-</h1>
+<h1 class="title">Create Account</h1>
 
 <p class="subtitle">
-Register as a tanker owner or transporter and start posting loads.
+Register on India's Fuel & Chemical Tanker Network.
 </p>
 
 <form>
 
 <div class="input-group">
 <label>Full Name</label>
-<input type="text" id="name" placeholder="Enter your full name">
+<input type="text" id="name" placeholder="Enter full name">
 </div>
 
 <div class="input-group">
@@ -159,10 +145,13 @@ Register as a tanker owner or transporter and start posting loads.
 <label>User Type</label>
 
 <select id="userType">
+
 <option>Select User Type</option>
+
 <option>Tanker Owner</option>
-<option>Transporter</option>
-<option>Chemical Company</option>
+
+<option>Client / Load Provider</option>
+
 </select>
 
 </div>
@@ -185,64 +174,6 @@ Already have an account?
 
 </div>
 
-<script type="module">
-
-import { auth, db } from './firebase.js';
-
-import {
-createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-
-import {
-doc,
-setDoc
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-
-const registerBtn = document.getElementById('registerBtn');
-
-registerBtn.addEventListener('click', async (e) => {
-
-e.preventDefault();
-
-const name = document.getElementById('name').value;
-const mobile = document.getElementById('mobile').value;
-const email = document.getElementById('email').value;
-const userType = document.getElementById('userType').value;
-const password = document.getElementById('password').value;
-
-try{
-
-const userCredential = await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-const user = userCredential.user;
-
-await setDoc(doc(db, "users", user.uid), {
-
-name: name,
-mobile: mobile,
-email: email,
-userType: userType
-
-});
-
-alert("Account Created Successfully!");
-
-window.location.href = "login.html";
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-});
-
-</script>
-
 </body>
 </html>
+```
