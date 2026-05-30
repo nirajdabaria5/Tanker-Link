@@ -223,6 +223,7 @@ TankerLink
 <a href="find-tanker.html">Find Tanker</a>
 <a href="login.html">Login</a>
 <a href="register.html">Register</a>
+  <a href="#" id="logoutBtn" style="display:none;">Logout</a>
 <a href="#">Contact</a>
 </nav>
 
@@ -564,6 +565,54 @@ navbar.classList.toggle('active');
 });
 
 </script>
+<script type="module">
 
+import { auth } from "./firebase.js";
+
+import {
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const loginLink =
+document.querySelector('a[href="login.html"]');
+
+const registerLink =
+document.querySelector('a[href="register.html"]');
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+logoutBtn.style.display = "inline";
+
+if(loginLink) loginLink.style.display = "none";
+if(registerLink) registerLink.style.display = "none";
+
+}else{
+
+logoutBtn.style.display = "none";
+
+if(loginLink) loginLink.style.display = "inline";
+if(registerLink) registerLink.style.display = "inline";
+
+}
+
+});
+
+logoutBtn.addEventListener("click", async (e)=>{
+
+e.preventDefault();
+
+await signOut(auth);
+
+window.location.href = "login.html";
+
+});
+
+</script>
 </body>
 </html>
