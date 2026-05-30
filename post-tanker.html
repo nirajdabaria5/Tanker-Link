@@ -212,7 +212,11 @@ Tanker Information
 
 <div class="input-group">
 <label>Owner Mobile</label>
-<input type="text" id="mobile">
+<input
+type="tel"
+id="mobile"
+maxlength="10"
+placeholder="Enter 10 digit mobile number">
 </div>
 </div>
 
@@ -249,7 +253,13 @@ serverTimestamp
 
 document.getElementById("postTankerBtn")
 .addEventListener("click", async () => {
+const mobile =
+document.getElementById("mobile").value.trim();
 
+if(!/^[0-9]{10}$/.test(mobile)){
+alert("Please enter a valid 10 digit mobile number");
+return;
+}
 try{
 
 if(!auth.currentUser){
@@ -289,7 +299,7 @@ lastMaterial:
 document.getElementById("lastMaterial").value,
 
 mobile:
-document.getElementById("mobile").value,
+mobile,
 
 notes:
 document.getElementById("notes").value,
