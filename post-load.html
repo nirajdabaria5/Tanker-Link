@@ -328,7 +328,7 @@ try{
 const totalFreight =
 (Number(rate.value || 0) * Number(qty.value || 0));
 
-await addDoc(collection(db,"loads"),{
+userId: auth.currentUser.uid,
 
 pickup:
 document.getElementById("pickup").value,
