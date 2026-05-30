@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Post Tanker - TankerLink</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050505;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 8%;
+background:#0d0d0d;
+border-bottom:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#00ff88;
+}
+
+.page{
+padding:60px 8%;
+display:flex;
+justify-content:center;
+}
+
+.form-container{
+width:100%;
+max-width:1100px;
+background:#101010;
+padding:45px;
+border-radius:28px;
+border:1px solid #1f1f1f;
+}
+
+.form-title{
+font-size:48px;
+margin-bottom:15px;
+}
+
+.form-title span{
+color:#00ff88;
+}
+
+.form-subtitle{
+color:#aaa;
+margin-bottom:35px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+.input-group{
+display:flex;
+flex-direction:column;
+}
+
+.input-group label{
+margin-bottom:10px;
+color:#ccc;
+}
+
+.input-group input,
+.input-group select,
+textarea{
+background:#181818;
+border:1px solid #2a2a2a;
+padding:16px;
+border-radius:14px;
+color:white;
+font-size:16px;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+.submit-btn{
+margin-top:35px;
+background:#00ff88;
+color:black;
+border:none;
+padding:18px 35px;
+font-size:18px;
+font-weight:700;
+border-radius:14px;
+cursor:pointer;
+}
+
+.section-title{
+font-size:22px;
+margin:25px 0 15px;
+color:#00ff88;
+}
+
+.note{
+background:#181818;
+padding:15px;
+border-radius:12px;
+margin-top:20px;
+color:#aaa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="logo">TankerLink</div>
+</header>
+
+<section class="page">
+
+<div class="form-container">
+
+<h1 class="form-title">
+Post <span>Available Tanker</span>
+</h1>
+
+<p class="form-subtitle">
+Publish your tanker and receive load enquiries.
+</p>
+
+<div class="section-title">
+Tanker Information
+</div>
+
+<div class="form-grid">
+
+<div class="input-group">
+<label>Tanker Type</label>
+<select id="tankerType">
+<option>SS Tanker</option>
+<option>MS Tanker</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Registration Number</label>
+<input type="text" id="registrationNumber">
+</div>
+
+<div class="input-group">
+<label>Capacity</label>
+<input type="number" id="capacity">
+</div>
+
+<div class="input-group">
+<label>Capacity Type</label>
+<select id="capacityType">
+<option>KL</option>
+<option>MT</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Current Location</label>
+<input type="text" id="currentLocation">
+</div>
+
+<div class="input-group">
+<label>Preferred Destination</label>
+<input type="text" id="destination">
+</div>
+
+<div class="input-group">
+<label>Clean Tank</label>
+<select id="cleanTank">
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Wash Required</label>
+<select id="washRequired">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Last Unloaded Material</label>
+<input type="text" id="lastMaterial">
+</div>
+
+<div class="input-group">
+<label>Owner Mobile</label>
+<input type="text" id="mobile">
+</div>
+</div>
+
+<div class="section-title">
+Additional Details
+</div>
+
+<div class="input-group">
+<label>Notes</label>
+<textarea id="notes"></textarea>
+</div>
+
+<div class="note">
+Document Uploads (PESO, Calibration, Tank Drawings, RC, Insurance) will be added in the next version.
+</div>
+
+<button type="button" class="submit-btn" id="postTankerBtn">
+Post Tanker
+</button>
+
+</div>
+
+</section>
+
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+collection,
+addDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+document.getElementById("postTankerBtn")
+.addEventListener("click", async () => {
+
+try{
+
+if(!auth.currentUser){
+alert("Please login first");
+return;
+}
+
+await addDoc(collection(db,"tankers"),{
+
+userId: auth.currentUser.uid,
+
+tankerType:
+document.getElementById("tankerType").value,
+
+registrationNumber:
+document.getElementById("registrationNumber").value,
+
+capacity:
+document.getElementById("capacity").value,
+
+capacityType:
+document.getElementById("capacityType").value,
+
+currentLocation:
+document.getElementById("currentLocation").value,
+
+destination:
+document.getElementById("destination").value,
+
+cleanTank:
+document.getElementById("cleanTank").value,
+
+washRequired:
+document.getElementById("washRequired").value,
+
+lastMaterial:
+document.getElementById("lastMaterial").value,
+
+mobile:
+document.getElementById("mobile").value,
+
+notes:
+document.getElementById("notes").value,
+
+createdAt:
+serverTimestamp()
+
+});
+
+alert("Tanker Posted Successfully");
+
+location.reload();
+
+}catch(error){
+
+console.error(error);
+alert(error.message);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
