@@ -1,29 +1,26 @@
-```js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 
-import { 
-getAuth 
+import {
+getAuth
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-import { 
-getFirestore 
+import {
+getFirestore
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyDF_91hizXxNK7LIJtvMmr0yhiTBOd-fhY",
+apiKey: "AIzaSyD2lMAxuxbT8OECOwdooNKqahpz-YeYArA",
 
-authDomain: "tanker-link.firebaseapp.com",
+authDomain: "tankerlink.firebaseapp.com",
 
-projectId: "tanker-link",
+projectId: "tankerlink",
 
-storageBucket: "tanker-link.firebasestorage.app",
+storageBucket: "tankerlink.firebasestorage.app",
 
-messagingSenderId: "27540547337",
+messagingSenderId: "822879536062",
 
-appId: "1:27540547337:web:6fb7fb04710b820a4a15d8",
-
-measurementId: "G-M4T0T8BVEP"
+appId: "1:822879536062:web:d3e199c40b19d4e60e6fef"
 
 };
 
@@ -34,4 +31,3 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export { auth, db };
-```
