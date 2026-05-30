@@ -1,6 +1,7 @@
-```html id="ibj5zq"
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -8,12 +9,7 @@
 
 <title>Login - TankerLink</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 
@@ -31,6 +27,7 @@ justify-content:center;
 align-items:center;
 min-height:100vh;
 padding:20px;
+color:white;
 }
 
 .login-box{
@@ -83,7 +80,6 @@ border-radius:14px;
 color:white;
 font-size:16px;
 outline:none;
-transition:0.3s;
 }
 
 .input-group input:focus{
@@ -99,12 +95,7 @@ border-radius:14px;
 font-size:18px;
 font-weight:700;
 cursor:pointer;
-transition:0.3s ease;
 margin-top:10px;
-}
-
-.login-btn:hover{
-transform:translateY(-3px);
 }
 
 .extra{
@@ -138,30 +129,73 @@ Welcome Back
 Login to manage loads, trips and tanker bookings.
 </p>
 
-<form>
-
 <div class="input-group">
 <label>Email Address</label>
-<input type="email" placeholder="Enter your email">
+<input type="email" id="email" placeholder="Enter your email">
 </div>
 
 <div class="input-group">
 <label>Password</label>
-<input type="password" placeholder="Enter your password">
+<input type="password" id="password" placeholder="Enter your password">
 </div>
 
-<button class="login-btn">
+<button type="button" class="login-btn" id="loginBtn">
 Login
 </button>
 
-</form>
-
 <div class="extra">
-Don’t have an account?
-<a href="#">Register</a>
+Don't have an account?
+<a href="register.html">Register</a>
 </div>
 
 </div>
+
+<script type="module">
+
+import { auth } from "./firebase.js";
+
+import {
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+const loginBtn =
+document.getElementById("loginBtn");
+
+loginBtn.addEventListener("click", async () => {
+
+const email =
+document.getElementById("email").value.trim();
+
+const password =
+document.getElementById("password").value;
+
+if(!email || !password){
+alert("Please enter email and password");
+return;
+}
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+alert("Login Successful");
+
+window.location.href = "index.html";
+
+}catch(error){
+
+console.error(error);
+alert(error.message);
+
+}
+
+});
+
+</script>
 
 </body>
 </html>
