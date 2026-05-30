@@ -1,0 +1,261 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard - TankerLink</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050505;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 8%;
+background:#0d0d0d;
+border-bottom:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#00ff88;
+}
+
+.logout-btn{
+background:#00ff88;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-weight:700;
+cursor:pointer;
+}
+
+.page{
+padding:60px 8%;
+}
+
+.title{
+font-size:46px;
+margin-bottom:10px;
+}
+
+.title span{
+color:#00ff88;
+}
+
+.user-email{
+color:#aaa;
+margin-bottom:40px;
+}
+
+.loads-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
+}
+
+.load-card{
+background:#101010;
+padding:25px;
+border-radius:22px;
+border:1px solid #1f1f1f;
+}
+
+.route{
+font-size:24px;
+font-weight:700;
+margin-bottom:12px;
+}
+
+.freight{
+font-size:28px;
+font-weight:700;
+color:#00ff88;
+margin:15px 0;
+}
+
+.delete-btn{
+width:100%;
+padding:14px;
+border:none;
+background:#ff4040;
+color:white;
+border-radius:10px;
+cursor:pointer;
+font-weight:700;
+}
+
+.empty{
+text-align:center;
+padding:50px;
+color:#888;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">TankerLink</div>
+
+<button id="logoutBtn" class="logout-btn">
+Logout
+</button>
+
+</header>
+
+<section class="page">
+
+<h1 class="title">
+My <span>Loads</span>
+</h1>
+
+<p id="userEmail" class="user-email">
+Loading...
+</p>
+
+<div id="loadsContainer" class="loads-grid">
+
+<div class="empty">
+Loading loads...
+</div>
+
+</div>
+
+</section>
+
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+import {
+collection,
+query,
+where,
+getDocs,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const container =
+document.getElementById("loadsContainer");
+
+const emailBox =
+document.getElementById("userEmail");
+
+onAuthStateChanged(auth, async(user)=>{
+
+if(!user){
+
+window.location.href="login.html";
+return;
+
+}
+
+emailBox.innerText =
+"Logged in as: " + user.email;
+
+const q = query(
+collection(db,"loads"),
+where("userId","==",user.uid)
+);
+
+const snapshot = await getDocs(q);
+
+if(snapshot.empty){
+
+container.innerHTML =
+'<div class="empty">No loads posted yet</div>';
+
+return;
+
+}
+
+container.innerHTML = "";
+
+snapshot.forEach((loadDoc)=>{
+
+const data = loadDoc.data();
+
+container.innerHTML += `
+
+<div class="load-card">
+
+<div class="route">
+${data.pickup} → ${data.destination}
+</div>
+
+<div>
+${data.materialType}
+</div>
+
+<div class="freight">
+₹${Number(data.freight || 0).toLocaleString()}
+</div>
+
+<button
+class="delete-btn"
+onclick="deleteLoad('${loadDoc.id}')">
+Delete Load
+</button>
+
+</div>
+
+`;
+
+});
+
+});
+
+window.deleteLoad = async(id)=>{
+
+if(!confirm("Delete this load?")) return;
+
+await deleteDoc(doc(db,"loads",id));
+
+location.reload();
+
+};
+
+document
+.getElementById("logoutBtn")
+.addEventListener("click", async()=>{
+
+await signOut(auth);
+
+window.location.href="login.html";
+
+});
+
+</script>
+
+</body>
+</html>
+```
