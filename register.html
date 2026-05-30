@@ -1,7 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -95,7 +96,11 @@ border-radius:14px;
 font-size:18px;
 font-weight:700;
 cursor:pointer;
-margin-top:10px;
+transition:0.3s;
+}
+
+.register-btn:hover{
+opacity:0.9;
 }
 
 .extra{
@@ -110,21 +115,24 @@ text-decoration:none;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="register-box">
 
-<div class="logo">TankerLink</div>
+<div class="logo">
+TankerLink
+</div>
 
-<h1 class="title">Create Account</h1>
+<h1 class="title">
+Create Account
+</h1>
 
 <p class="subtitle">
 Register on India's Fuel & Chemical Tanker Network.
 </p>
-
-<form>
 
 <div class="input-group">
 <label>Full Name</label>
@@ -146,11 +154,15 @@ Register on India's Fuel & Chemical Tanker Network.
 
 <select id="userType">
 
-<option>Select User Type</option>
+<option value="">Select User Type</option>
 
-<option>Tanker Owner</option>
+<option value="Tanker Owner">
+Tanker Owner
+</option>
 
-<option>Client / Load Provider</option>
+<option value="Load Provider / Client">
+Load Provider / Client
+</option>
 
 </select>
 
@@ -161,11 +173,9 @@ Register on India's Fuel & Chemical Tanker Network.
 <input type="password" id="password" placeholder="Create password">
 </div>
 
-<button class="register-btn" id="registerBtn">
+<button type="button" class="register-btn" id="registerBtn">
 Create Account
 </button>
-
-</form>
 
 <div class="extra">
 Already have an account?
@@ -174,6 +184,90 @@ Already have an account?
 
 </div>
 
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+import {
+doc,
+setDoc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const registerBtn =
+document.getElementById("registerBtn");
+
+registerBtn.addEventListener("click", async () => {
+
+const name =
+document.getElementById("name").value.trim();
+
+const mobile =
+document.getElementById("mobile").value.trim();
+
+const email =
+document.getElementById("email").value.trim();
+
+const userType =
+document.getElementById("userType").value;
+
+const password =
+document.getElementById("password").value;
+
+if(
+!name ||
+!mobile ||
+!email ||
+!userType ||
+!password
+){
+alert("Please fill all fields");
+return;
+}
+
+try{
+
+const userCredential =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+await setDoc(
+doc(
+db,
+"users",
+userCredential.user.uid
+),
+{
+name:name,
+mobile:mobile,
+email:email,
+userType:userType,
+createdAt:new Date().toISOString()
+}
+);
+
+alert("Account Created Successfully");
+
+window.location.href =
+"login.html";
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+});
+
+</script>
+
 </body>
 </html>
-```
