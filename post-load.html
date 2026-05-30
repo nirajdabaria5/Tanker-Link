@@ -326,7 +326,13 @@ qty.addEventListener('input', calculateFreight);
 
 document.getElementById("postLoadBtn")
 .addEventListener("click", async () => {
+const mobile =
+document.getElementById("mobile").value.trim();
 
+if(!/^[0-9]{10}$/.test(mobile)){
+alert("Please enter a valid 10 digit mobile number");
+return;
+}
 try{
 const totalFreight =
 (Number(rate.value || 0) * Number(qty.value || 0));
@@ -368,7 +374,7 @@ freight:
 totalFreight,
 
 mobile:
-document.getElementById("mobile").value,
+mobile,
 
 details:
 document.getElementById("details").value,
