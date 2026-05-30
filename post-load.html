@@ -184,25 +184,21 @@ Post Your <span>Load</span>
 Create a load and connect with verified tanker owners across India.
 </p>
 
-<form>
-
 <div class="form-grid">
 
 <div class="input-group">
 <label>Pickup Location</label>
-<input type="text" placeholder="Enter pickup city">
+<input type="text" id="pickup">
 </div>
 
 <div class="input-group">
 <label>Destination</label>
-<input type="text" placeholder="Enter destination city">
+<input type="text" id="destination">
 </div>
 
 <div class="input-group">
 <label>Main Category</label>
-
-<select>
-<option>Select Category</option>
+<select id="mainCategory">
 <option>Fuel</option>
 <option>Chemical</option>
 <option>Petrochemical</option>
@@ -210,14 +206,11 @@ Create a load and connect with verified tanker owners across India.
 <option>Industrial Liquid</option>
 <option>Other</option>
 </select>
-
 </div>
 
 <div class="input-group">
 <label>Material Type</label>
-
-<select>
-<option>Select Material</option>
+<select id="materialType">
 <option>Methanol</option>
 <option>Ethanol</option>
 <option>Diesel</option>
@@ -227,29 +220,24 @@ Create a load and connect with verified tanker owners across India.
 <option>Toluene</option>
 <option>Other</option>
 </select>
-
 </div>
 
 <div class="input-group">
 <label>Specify Material</label>
-<input type="text" placeholder="Enter material name if not listed">
+<input type="text" id="customMaterial">
 </div>
 
 <div class="input-group">
 <label>Capacity Type</label>
-
-<select>
+<select id="capacityType">
 <option>KL</option>
 <option>MT</option>
 </select>
-
 </div>
 
 <div class="input-group">
 <label>Capacity</label>
-
-<select>
-<option>Select Capacity</option>
+<select id="capacity">
 <option>20</option>
 <option>25</option>
 <option>30</option>
@@ -259,52 +247,43 @@ Create a load and connect with verified tanker owners across India.
 <option>50</option>
 <option>Specify</option>
 </select>
-
 </div>
 
 <div class="input-group">
 <label>Specify Capacity</label>
-<input type="text" placeholder="Enter custom capacity">
+<input type="text" id="customCapacity">
 </div>
 
 <div class="input-group">
 <label>Rate (₹)</label>
-<input type="number" id="rate" placeholder="Rate per MT/KL">
+<input type="number" id="rate">
 </div>
 
 <div class="input-group">
 <label>Quantity</label>
-<input type="number" id="qty" placeholder="Enter quantity">
+<input type="number" id="qty">
 </div>
 
 <div class="input-group">
 <label>Total Freight</label>
-
-<div class="freight-box" id="freight">
-₹0
-</div>
-
+<div class="freight-box" id="freight">₹0</div>
 </div>
 
 <div class="input-group">
 <label>Mobile Number</label>
-<input type="text" placeholder="Enter mobile number">
+<input type="text" id="mobile">
 </div>
 
 <div class="input-group" style="grid-column:span 2;">
 <label>Additional Details</label>
-
-<textarea placeholder="Loading point, unloading point, timing, tanker requirements etc."></textarea>
-
+<textarea id="details"></textarea>
 </div>
 
 </div>
 
-<button class="submit-btn">
+<button type="button" class="submit-btn" id="postLoadBtn">
 Post Load
 </button>
-
-</form>
 
 </div>
 
@@ -314,7 +293,15 @@ Post Load
 TankerLink • India's Digital Tanker Marketplace
 </footer>
 
-<script>
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+addDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 const rate = document.getElementById('rate');
 const qty = document.getElementById('qty');
@@ -332,6 +319,73 @@ freight.innerText =
 
 rate.addEventListener('input', calculateFreight);
 qty.addEventListener('input', calculateFreight);
+
+document.getElementById("postLoadBtn")
+.addEventListener("click", async () => {
+
+try{
+
+const totalFreight =
+(Number(rate.value || 0) * Number(qty.value || 0));
+
+await addDoc(collection(db,"loads"),{
+
+pickup:
+document.getElementById("pickup").value,
+
+destination:
+document.getElementById("destination").value,
+
+mainCategory:
+document.getElementById("mainCategory").value,
+
+materialType:
+document.getElementById("materialType").value,
+
+customMaterial:
+document.getElementById("customMaterial").value,
+
+capacityType:
+document.getElementById("capacityType").value,
+
+capacity:
+document.getElementById("capacity").value,
+
+customCapacity:
+document.getElementById("customCapacity").value,
+
+rate:
+Number(document.getElementById("rate").value),
+
+quantity:
+Number(document.getElementById("qty").value),
+
+freight:
+totalFreight,
+
+mobile:
+document.getElementById("mobile").value,
+
+details:
+document.getElementById("details").value,
+
+createdAt:
+serverTimestamp()
+
+});
+
+alert("Load Posted Successfully");
+
+location.reload();
+
+}catch(error){
+
+console.error(error);
+alert(error.message);
+
+}
+
+});
 
 </script>
 
