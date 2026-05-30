@@ -406,9 +406,15 @@ import {
 onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
+console.log("Auth script loaded");
+
 onAuthStateChanged(auth,(user)=>{
 
+console.log("User:", user);
+
 if(!user){
+
+alert("Not logged in");
 
 window.location.href="login.html";
 
