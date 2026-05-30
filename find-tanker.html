@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,93 +45,58 @@ margin-left:25px;
 }
 
 .page{
-padding:70px 8%;
-display:flex;
-justify-content:center;
+padding:60px 8%;
 }
 
-.form-container{
-width:100%;
-max-width:900px;
-background:#101010;
-padding:45px;
-border-radius:28px;
-border:1px solid #1f1f1f;
+.page-title{
+font-size:48px;
+margin-bottom:10px;
 }
 
-.form-title{
-font-size:46px;
-margin-bottom:15px;
-}
-
-.form-title span{
+.page-title span{
 color:#00ff88;
 }
 
-.form-subtitle{
-color:#bbbbbb;
-margin-bottom:35px;
-line-height:1.8;
+.page-subtitle{
+color:#aaa;
+margin-bottom:40px;
 }
 
-.form-grid{
+.tankers-grid{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 gap:25px;
 }
 
-.input-group{
-display:flex;
-flex-direction:column;
+.tanker-card{
+background:#101010;
+border:1px solid #1f1f1f;
+border-radius:24px;
+padding:25px;
 }
 
-.input-group label{
-margin-bottom:10px;
-color:#cccccc;
-}
-
-.input-group input,
-.input-group select{
-background:#181818;
-border:1px solid #2a2a2a;
-padding:16px;
-border-radius:14px;
-color:white;
-font-size:16px;
-}
-
-.submit-btn{
-margin-top:35px;
-background:#00ff88;
-color:black;
-border:none;
-padding:18px 35px;
-font-size:18px;
+.tanker-type{
+font-size:28px;
 font-weight:700;
-border-radius:14px;
-cursor:pointer;
+color:#00ff88;
+margin-bottom:15px;
 }
 
-footer{
-padding:40px;
+.info{
+margin-bottom:10px;
+color:#ddd;
+}
+
+.mobile{
+margin-top:15px;
+font-size:18px;
+}
+
+.empty{
 text-align:center;
+padding:60px;
 color:#888;
-}
-
-@media(max-width:768px){
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-nav{
-display:none;
-}
-
-.form-title{
-font-size:34px;
-}
-
+font-size:20px;
 }
 
 </style>
@@ -148,108 +112,129 @@ font-size:34px;
 <nav>
 <a href="index.html">Home</a>
 <a href="post-load.html">Post Load</a>
-<a href="find-tanker.html">Find Tanker</a>
+<a href="post-tanker.html">Post Tanker</a>
+<a href="available-loads.html">Available Loads</a>
 </nav>
 
 </header>
 
 <section class="page">
 
-<div class="form-container">
-
-<h1 class="form-title">
-Find <span>Available Tankers</span>
+<h1 class="page-title">
+Available <span>Tankers</span>
 </h1>
 
-<p class="form-subtitle">
-Search available tankers based on route, material and capacity requirement.
+<p class="page-subtitle">
+Live tankers posted by tanker owners across India.
 </p>
 
-<form>
+<div id="tankersContainer" class="tankers-grid">
 
-<div class="form-grid">
-
-<div class="input-group">
-<label>Pickup Location</label>
-<input type="text" placeholder="Enter pickup city">
+<div class="empty">
+Loading tankers...
 </div>
-
-<div class="input-group">
-<label>Destination</label>
-<input type="text" placeholder="Enter destination city">
-</div>
-
-<div class="input-group">
-<label>Main Category</label>
-
-<select>
-<option>Select Category</option>
-<option>Fuel</option>
-<option>Chemical</option>
-<option>Petrochemical</option>
-<option>Edible Oil</option>
-<option>Industrial Liquid</option>
-<option>Other</option>
-</select>
-
-</div>
-
-<div class="input-group">
-<label>Material Type</label>
-
-<select>
-<option>Select Material</option>
-<option>Methanol</option>
-<option>Ethanol</option>
-<option>Diesel</option>
-<option>Petrol</option>
-<option>ATF</option>
-<option>Other</option>
-</select>
-
-</div>
-
-<div class="input-group">
-<label>Capacity</label>
-
-<select>
-<option>Select Capacity</option>
-<option>20 KL</option>
-<option>25 KL</option>
-<option>30 KL</option>
-<option>35 KL</option>
-<option>40 KL</option>
-<option>20 MT</option>
-<option>25 MT</option>
-<option>30 MT</option>
-<option>35 MT</option>
-<option>40 MT</option>
-<option>Specify</option>
-</select>
-
-</div>
-
-<div class="input-group">
-<label>Mobile Number</label>
-<input type="text" placeholder="Enter mobile number">
-</div>
-
-</div>
-
-<button class="submit-btn">
-Find Available Tankers
-</button>
-
-</form>
 
 </div>
 
 </section>
 
-<footer>
-TankerLink • India's Digital Tanker Marketplace
-</footer>
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+query,
+orderBy
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const tankersContainer =
+document.getElementById("tankersContainer");
+
+async function loadTankers(){
+
+try{
+
+const q = query(
+collection(db,"tankers"),
+orderBy("createdAt","desc")
+);
+
+const snapshot = await getDocs(q);
+
+if(snapshot.empty){
+
+tankersContainer.innerHTML =
+'<div class="empty">No tankers available</div>';
+
+return;
+}
+
+tankersContainer.innerHTML = "";
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+  tankersContainer.innerHTML += `
+
+<div class="tanker-card">
+
+<div class="tanker-type">
+${data.tankerType}
+</div>
+
+<div class="info">
+Registration: ${data.registrationNumber}
+</div>
+
+<div class="info">
+Route: ${data.currentLocation} → ${data.destination}
+</div>
+
+<div class="info">
+Capacity: ${data.capacity} ${data.capacityType}
+</div>
+
+<div class="info">
+Clean Tank: ${data.cleanTank}
+</div>
+
+<div class="info">
+Wash Required: ${data.washRequired}
+</div>
+
+<div class="info">
+Last Material: ${data.lastMaterial}
+</div>
+
+<div class="mobile">
+📞 <a href="tel:${data.mobile}"
+style="color:#00ff88;text-decoration:none;font-weight:600;">
+${data.mobile}
+</a>
+</div>
+
+</div>
+
+`;
+
+});
+
+}catch(error){
+
+console.error(error);
+
+tankersContainer.innerHTML =
+'<div class="empty">Error loading tankers</div>';
+
+}
+
+}
+
+loadTankers();
+
+</script>
 
 </body>
 </html>
-```
