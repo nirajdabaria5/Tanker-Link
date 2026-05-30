@@ -1,0 +1,253 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Available Loads - TankerLink</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050505;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 8%;
+background:#0d0d0d;
+border-bottom:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#00ff88;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+}
+
+.page{
+padding:60px 8%;
+}
+
+.page-title{
+font-size:48px;
+margin-bottom:10px;
+}
+
+.page-title span{
+color:#00ff88;
+}
+
+.page-subtitle{
+color:#aaa;
+margin-bottom:40px;
+}
+
+.loads-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
+}
+
+.load-card{
+background:#101010;
+border:1px solid #1f1f1f;
+border-radius:24px;
+padding:25px;
+}
+
+.route{
+font-size:26px;
+font-weight:700;
+margin-bottom:15px;
+}
+
+.material{
+color:#00ff88;
+margin-bottom:10px;
+}
+
+.info{
+margin-bottom:8px;
+color:#ddd;
+}
+
+.freight{
+font-size:28px;
+font-weight:700;
+color:#00ff88;
+margin:15px 0;
+}
+
+.contact-btn{
+width:100%;
+padding:14px;
+background:#00ff88;
+color:black;
+border:none;
+border-radius:12px;
+font-weight:700;
+cursor:pointer;
+}
+
+.empty{
+text-align:center;
+padding:60px;
+color:#888;
+font-size:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">TankerLink</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="post-load.html">Post Load</a>
+<a href="find-tanker.html">Find Tanker</a>
+</nav>
+
+</header>
+
+<section class="page">
+
+<h1 class="page-title">
+Available <span>Loads</span>
+</h1>
+
+<p class="page-subtitle">
+Live loads posted by clients across India.
+</p>
+
+<div id="loadsContainer" class="loads-grid">
+
+<div class="empty">
+Loading loads...
+</div>
+
+</div>
+
+</section>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+query,
+orderBy
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const loadsContainer =
+document.getElementById("loadsContainer");
+
+async function loadData(){
+
+try{
+
+const q = query(
+collection(db,"loads"),
+orderBy("createdAt","desc")
+);
+
+const snapshot = await getDocs(q);
+
+if(snapshot.empty){
+
+loadsContainer.innerHTML =
+'<div class="empty">No loads available</div>';
+
+return;
+}
+
+loadsContainer.innerHTML = "";
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+loadsContainer.innerHTML += `
+
+<div class="load-card">
+
+<div class="route">
+${data.pickup} → ${data.destination}
+</div>
+
+<div class="material">
+${data.mainCategory} / ${data.materialType}
+</div>
+
+<div class="info">
+Capacity: ${data.capacity}
+${data.capacityType}
+</div>
+
+<div class="info">
+Quantity: ${data.quantity}
+</div>
+
+<div class="freight">
+₹${Number(data.freight || 0).toLocaleString()}
+</div>
+
+<div class="info">
+Mobile: ${data.mobile}
+</div>
+
+<button class="contact-btn">
+Contact Client
+</button>
+
+</div>
+
+`;
+
+});
+
+}catch(error){
+
+console.error(error);
+
+loadsContainer.innerHTML =
+'<div class="empty">Error loading data</div>';
+
+}
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
+```
