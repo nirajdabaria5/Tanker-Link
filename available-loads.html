@@ -194,6 +194,7 @@ snapshot.forEach((doc)=>{
 
 const data = doc.data();
 
+```js
 loadsContainer.innerHTML += `
 
 <div class="load-card">
@@ -207,8 +208,7 @@ ${data.mainCategory} / ${data.materialType}
 </div>
 
 <div class="info">
-Capacity: ${data.capacity}
-${data.capacityType}
+Capacity: ${data.capacity} ${data.capacityType}
 </div>
 
 <div class="info">
@@ -220,18 +220,16 @@ Quantity: ${data.quantity}
 </div>
 
 <div class="info">
-📞 <a href="tel:${data.mobile}" style="color:#00ff88;text-decoration:none;">
+📞 <a href="tel:${data.mobile}" style="color:#00ff88;text-decoration:none;font-weight:600;">
 ${data.mobile}
 </a>
 </div>
 
-<button class="contact-btn">
-Contact Client
-</button>
-
 </div>
 
 `;
+```
+
 
 });
 
