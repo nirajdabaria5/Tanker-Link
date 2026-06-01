@@ -214,14 +214,58 @@ TankerLink
 <i class="fa-solid fa-bars"></i>
 </div>
 
-<nav id="navbar">
-<a href="index.html">Home</a>
-<a href="available-loads.html">Available Loads</a>
-<a href="find-tanker.html">Find Tanker</a>
-<a href="login.html">Login</a>
-<a href="register.html">Register</a>
-<a href="#contact">Contact</a>
-</nav>
+<div id="userMenu" style="display:none;position:relative;">
+
+<div id="avatar" style="
+width:45px;
+height:45px;
+border-radius:50%;
+background:#00ff88;
+color:black;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+cursor:pointer;
+">
+K
+</div>
+
+<div id="dropdown" style="
+display:none;
+position:absolute;
+right:0;
+top:55px;
+background:#101010;
+border:1px solid #2a2a2a;
+border-radius:12px;
+min-width:220px;
+padding:15px;
+z-index:999;
+">
+
+<div id="userName" style="font-weight:600;">
+User
+</div>
+
+<div id="userEmail" style="
+font-size:13px;
+color:#aaa;
+margin-bottom:12px;
+">
+email
+</div>
+
+<hr style="border-color:#222;margin-bottom:10px;">
+
+<a href="#" id="dashboardLink">Dashboard</a>
+<br><br>
+
+<a href="#" id="logoutBtn">Logout</a>
+
+</div>
+
+</div>
 
 </header>
 
