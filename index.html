@@ -246,6 +246,47 @@ z-index:999;
 
 <div id="userName" style="font-weight:600;">
 User
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="available-loads.html">Available Loads</a>
+<a href="find-tanker.html">Find Tanker</a>
+<a href="#contact">Contact</a>
+<a href="login.html" id="loginLink">Login</a>
+<a href="register.html" id="registerLink">Register</a>
+</nav>
+
+<div id="userMenu" style="display:none;position:relative;">
+
+<div id="avatar" style="
+width:45px;
+height:45px;
+border-radius:50%;
+background:#00ff88;
+color:black;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+cursor:pointer;
+">
+K
+</div>
+
+<div id="dropdown" style="
+display:none;
+position:absolute;
+right:0;
+top:55px;
+background:#101010;
+border:1px solid #2a2a2a;
+border-radius:12px;
+min-width:220px;
+padding:15px;
+z-index:999;
+">
+
+<div id="userName" style="font-weight:600;">
+User
 </div>
 
 <div id="userEmail" style="
@@ -259,6 +300,7 @@ email
 <hr style="border-color:#222;margin-bottom:10px;">
 
 <a href="#" id="dashboardLink">Dashboard</a>
+
 <br><br>
 
 <a href="#" id="logoutBtn">Logout</a>
