@@ -574,6 +574,93 @@ navbar.classList.toggle('active');
 });
 
 </script>
+<script type="module">
 
+import { auth, db } from "./firebase.js";
+
+import {
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+import {
+doc,
+getDoc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const userMenu = document.getElementById("userMenu");
+const avatar = document.getElementById("avatar");
+const profileDropdown = document.getElementById("profileDropdown");
+const profileName = document.getElementById("profileName");
+const profileEmail = document.getElementById("profileEmail");
+const logoutBtn = document.getElementById("logoutBtn");
+
+const loginLink =
+document.querySelector('a[href="login.html"]');
+
+const registerLink =
+document.querySelector('a[href="register.html"]');
+
+onAuthStateChanged(auth, async(user)=>{
+
+if(user){
+
+userMenu.style.display = "flex";
+
+if(loginLink) loginLink.style.display = "none";
+if(registerLink) registerLink.style.display = "none";
+
+profileEmail.textContent = user.email;
+
+const userDoc =
+await getDoc(doc(db,"users",user.uid));
+
+if(userDoc.exists()){
+
+const data = userDoc.data();
+
+profileName.textContent = data.name;
+
+avatar.textContent =
+data.name.charAt(0).toUpperCase();
+
+}
+
+}else{
+
+userMenu.style.display = "none";
+
+if(loginLink) loginLink.style.display = "inline";
+if(registerLink) registerLink.style.display = "inline";
+
+}
+
+});
+
+avatar.addEventListener("click",()=>{
+
+if(profileDropdown.style.display==="block"){
+
+profileDropdown.style.display="none";
+
+}else{
+
+profileDropdown.style.display="block";
+
+}
+
+});
+
+logoutBtn.addEventListener("click",async(e)=>{
+
+e.preventDefault();
+
+await signOut(auth);
+
+window.location.href="login.html";
+
+});
+
+</script>
 </body>
 </html>
