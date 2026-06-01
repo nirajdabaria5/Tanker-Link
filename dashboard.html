@@ -128,8 +128,8 @@ Logout
 
 <section class="page">
 
-<h1 class="title">
-My <span>Loads</span>
+<h1 class="title" id="dashboardTitle">
+Loading...
 </h1>
 
 <p id="userEmail" class="user-email">
@@ -161,8 +161,10 @@ query,
 where,
 getDocs,
 deleteDoc,
-doc
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+doc,
+getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 const container =
 document.getElementById("loadsContainer");
@@ -181,9 +183,41 @@ return;
 
 emailBox.innerText =
 "Logged in as: " + user.email;
+const userDoc = await getDoc(
+doc(db,"users",user.uid)
+);
 
+const userData = userDoc.data();
+
+const dashboardTitle =
+document.getElementById("dashboardTitle");
+
+let collectionName = "";
+let emptyMessage = "";
+
+if(userData.userType === "Tanker Owner"){
+
+dashboardTitle.innerHTML =
+'My <span>Tankers</span>';
+
+collectionName = "tankers";
+
+emptyMessage =
+"No tankers posted yet";
+
+}else{
+
+dashboardTitle.innerHTML =
+'My <span>Loads</span>';
+
+collectionName = "loads";
+
+emptyMessage =
+"No loads posted yet";
+
+}
 const q = query(
-collection(db,"loads"),
+collection(db,collectionName),
 where("userId","==",user.uid)
 );
 
@@ -192,7 +226,7 @@ const snapshot = await getDocs(q);
 if(snapshot.empty){
 
 container.innerHTML =
-'<div class="empty">No loads posted yet</div>';
+`<div class="empty">${emptyMessage}</div>`;
 
 return;
 
